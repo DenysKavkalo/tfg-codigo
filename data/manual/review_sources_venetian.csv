@@ -1,0 +1,4 @@
+hotel_id,hotel_name,city,country,platform,reviews_url
+HVEGAS001,The Venetian Resort Las Vegas,Las Vegas,United States,tripcom,https://www.trip.com/hotels/las-vegas-hotel-detail-737263/the-venetian-resort-las-vegas/?pageSize=20
+HVEGAS001,The Venetian Resort Las Vegas,Las Vegas,United States,agoda,https://www.agoda.com/api/cronos/property/review/HotelReviews?hotelId=2937&pageSize=50&referer=https%3A%2F%2Fwww.agoda.com%2Fvenetian-resort-hotel-casino%2Fhotel%2Flas-vegas-nv-us.html
+HVEGAS001,The Venetian Resort Las Vegas,Las Vegas,United States,priceline,https://www.priceline.com/hotel-deals/en-us/P3000015284/H60761/the-venetian-resort-las-vegas.ssp

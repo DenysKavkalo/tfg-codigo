@@ -1,0 +1,4 @@
+hotel_id,hotel_name,city,country,platform,reviews_url
+HWYNN001,Wynn Las Vegas,Las Vegas,United States,tripcom,https://www.trip.com/hotels/las-vegas-hotel-detail-790608/wynn-las-vegas/?pageSize=20
+HWYNN001,Wynn Las Vegas,Las Vegas,United States,agoda,https://www.agoda.com/api/cronos/property/review/HotelReviews?hotelId=50345&pageSize=50&referer=https%3A%2F%2Fwww.agoda.com%2Fwynn-las-vegas%2Fhotel%2Flas-vegas-nv-us.html
+HWYNN001,Wynn Las Vegas,Las Vegas,United States,priceline,https://www.priceline.com/hotel-deals/en-us/P3000015284/H10899904/wynn-las-vegas.ssp
