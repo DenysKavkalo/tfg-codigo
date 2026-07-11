@@ -1,0 +1,5 @@
+"hotel_id","platform","n_reviews","mean_score","sd_score","min_score","q25_score","median_score","q75_score","max_score"
+"HWYNN001","agoda",96,9.15416666666667,1.50213298638034,2,8.8,10,10,10
+"HWYNN001","booking_via_agoda",510,8.57254901960784,2.34575890605429,1,8,10,10,10
+"HWYNN001","priceline",24,8.83333333333333,1.9034674690672,1,8,9,10,10
+"HWYNN001","tripcom",309,9.30129449838188,1.40883054823441,2,9,10,10,10

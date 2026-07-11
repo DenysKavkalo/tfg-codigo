@@ -1,0 +1,5 @@
+hotel_id,hotel_name,platform,n_reviews,total_score,mean_score,sd_score,min_review_date,max_review_date,min_stay_date,max_stay_date
+HWYNN001,Wynn Las Vegas,agoda,96,878.8,9.154166666666667,1.5021329863803436,2024-01-03,2025-12-31,2023-10-11,2025-12-27
+HWYNN001,Wynn Las Vegas,booking_via_agoda,510,4372.0,8.572549019607843,2.34575890605429,2024-01-02,2025-12-31,,
+HWYNN001,Wynn Las Vegas,priceline,24,212.0,8.833333333333334,1.9034674690672027,2024-01-08,2025-11-14,,
+HWYNN001,Wynn Las Vegas,tripcom,309,2874.1,9.301294498381877,1.4088305482344092,2024-01-01,2025-12-31,2023-12-01,2025-12-01

@@ -1,0 +1,5 @@
+"hotel_id","platform","n_reviews","mean_score","sd_score","min_score","q25_score","median_score","q75_score","max_score"
+"HVEGAS001","agoda",323,8.86687306501548,1.65450217860018,2,8.4,9.6,10,10
+"HVEGAS001","booking_via_agoda",1151,8.46394439617724,2.26739722310413,1,8,9,10,10
+"HVEGAS001","priceline",46,8.54347826086956,2.41022379541016,1,8,10,10,10
+"HVEGAS001","tripcom",346,9.06791907514451,1.62182032434135,1,8.5,10,10,10

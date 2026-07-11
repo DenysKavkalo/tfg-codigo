@@ -1,18 +1,12 @@
-# Entorno virtual y archivos de Python
 .venv/
 **/__pycache__/
 *.py[cod]
 
-# Configuración local de PyCharm
 .idea/
 *.iml
 
-# Datos generados
 data/raw/*
 !data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
 
-# Archivos temporales
 *.html
 *.log

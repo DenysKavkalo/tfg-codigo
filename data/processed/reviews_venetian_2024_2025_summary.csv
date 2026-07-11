@@ -1,0 +1,5 @@
+hotel_id,hotel_name,platform,n_reviews,total_score,mean_score,sd_score,min_review_date,max_review_date,min_stay_date,max_stay_date
+HVEGAS001,The Venetian Resort Las Vegas,agoda,323,2864.0,8.86687306501548,1.6545021786001832,2024-01-01,2025-12-30,2023-05-19,2025-12-28
+HVEGAS001,The Venetian Resort Las Vegas,booking_via_agoda,1151,9742.0,8.463944396177236,2.2673972231041266,2024-01-01,2025-12-31,,
+HVEGAS001,The Venetian Resort Las Vegas,priceline,46,393.0,8.543478260869565,2.41022379541016,2024-12-04,2025-12-13,,
+HVEGAS001,The Venetian Resort Las Vegas,tripcom,346,3137.5,9.06791907514451,1.6218203243413485,2024-01-01,2025-12-31,2023-10-01,2025-12-01
