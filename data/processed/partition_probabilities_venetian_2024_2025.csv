@@ -1,16 +1,16 @@
-"hotel_id","partition","n_clusters","log_marginal_likelihood","posterior_probability","alpha","beta"
-"HVEGAS001","agoda+booking_via_agoda+priceline+tripcom",1,18664.1425315872,0.947862635874484,1,1
-"HVEGAS001","agoda+tripcom | booking_via_agoda+priceline",2,18660.5986029957,0.0273928218127528,1,1
-"HVEGAS001","agoda+priceline+tripcom | booking_via_agoda",2,18660.1842662808,0.0181005855122311,1,1
-"HVEGAS001","agoda+booking_via_agoda+priceline | tripcom",2,18658.6610190874,0.00394597902924572,1,1
-"HVEGAS001","agoda+booking_via_agoda | priceline+tripcom",2,18658.0414381768,0.00212360726435528,1,1
-"HVEGAS001","agoda+booking_via_agoda+tripcom | priceline",2,18655.7862500232,0.000222668319535513,1,1
-"HVEGAS001","agoda | booking_via_agoda+priceline+tripcom",2,18655.624522136,0.000189417849881918,1,1
-"HVEGAS001","agoda+priceline | booking_via_agoda+tripcom",2,18655.3767269387,0.000147844378426655,1,1
-"HVEGAS001","agoda+tripcom | booking_via_agoda | priceline",3,18652.2416237751,6.43053063536482e-06,1,1
-"HVEGAS001","agoda | booking_via_agoda+priceline | tripcom",3,18651.4830705788,3.01169747041888e-06,1,1
-"HVEGAS001","agoda+priceline | booking_via_agoda | tripcom",3,18651.2514354493,2.38898534519406e-06,1,1
-"HVEGAS001","agoda | booking_via_agoda | priceline+tripcom",3,18650.8871579586,1.65962428649817e-06,1,1
-"HVEGAS001","agoda+booking_via_agoda | priceline | tripcom",3,18650.2803715763,9.04660866187872e-07,1,1
-"HVEGAS001","agoda | booking_via_agoda+tripcom | priceline",3,18647.2513828475,4.37534913195921e-08,1,1
-"HVEGAS001","agoda | booking_via_agoda | priceline | tripcom",4,18643.1260913581,7.07003206181667e-10,1,1
+"hotel_id","partition","n_clusters","log_model_evidence","log_bayes_factor_vs_homogeneity","posterior_probability","scaled_integration_error","integration_mode_lambda","alpha","beta","model_prior","score_transform","score_mode","model"
+"HVEGAS001","agoda+tripcom | booking_via_agoda+priceline",2,-1725.44353980251,34.1511886017533,0.724812693919778,1.5888672940195e-11,1.92056578966171,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda | booking_via_agoda+priceline | tripcom",3,-1727.40656736865,32.1881610356118,0.101787336664457,1.0037694753773e-11,1.78191691591605,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+tripcom | booking_via_agoda | priceline",3,-1727.4300246171,32.1647037871546,0.0994274719916682,1.18115956620518e-11,1.92395835059432,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+priceline+tripcom | booking_via_agoda",2,-1728.29216541816,31.3025629861036,0.0419839605052596,1.55446916984042e-11,1.93824158812109,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda | booking_via_agoda | priceline | tripcom",4,-1729.34673018936,30.2479982149011,0.014624860891925,5.23078087833825e-11,1.81566974588722,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+priceline | booking_via_agoda | tripcom",3,-1729.37411177881,30.2206166254493,0.0142298417612288,1.02616497981155e-11,1.79909831406905,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda | booking_via_agoda | priceline+tripcom",3,-1730.88722053294,28.7075078713196,0.00313375679190147,1.03129419820442e-11,1.80432806478961,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+booking_via_agoda+priceline | tripcom",2,-1741.63692198947,17.9578064147893,6.72247604849386e-08,1.69725188665732e-11,1.85046542599747,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+booking_via_agoda | priceline | tripcom",3,-1743.72170820144,15.8730202028164,8.35830309384975e-09,1.07393440482218e-11,1.87394808453819,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+booking_via_agoda | priceline+tripcom",2,-1745.20857823635,14.3861501679135,1.8896382192945e-09,1.65374393035298e-11,1.88319065380482,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda | booking_via_agoda+priceline+tripcom",2,-1752.92500272538,6.66972567888183,8.41740238515423e-13,1.63028155841149e-11,1.89913967990361,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+priceline | booking_via_agoda+tripcom",2,-1754.95693002649,4.63779837776906,1.10337534189133e-13,1.5841403227378e-11,1.92429165455284,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda | booking_via_agoda+tripcom | priceline",3,-1754.98072093792,4.61400746633558,1.0774348345428e-13,1.14489397088765e-11,1.90773853626079,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+booking_via_agoda+priceline+tripcom",1,-1759.59472840426,0,1.06795518968804e-15,0,NA,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"
+"HVEGAS001","agoda+booking_via_agoda+tripcom | priceline",2,-1761.77657463092,-2.18184622666354,1.20500612361435e-16,1.34087571514632e-11,2.06400563285947,0.5,0,"uniform","10-rating_scaled_0_10","round","Martel-Escobar et al. (2023), equations 13-15"

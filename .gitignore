@@ -7,6 +7,8 @@
 
 data/raw/*
 !data/raw/.gitkeep
+!data/raw/reviews_venetian_2024_2025_raw.csv
+!data/raw/reviews_wynn_2024_2025_raw.csv
 
 *.html
 *.log
