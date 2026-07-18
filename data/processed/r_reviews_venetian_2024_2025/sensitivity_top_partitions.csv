@@ -1,0 +1,46 @@
+"hotel_id","period_scenario","source_scenario","excluded_platform","score_mode","n_platforms","n_reviews_scenario","reference_partition_projected","top_partition","top_probability","second_probability","normalized_entropy","matches_reference_structure"
+"HVEGAS001","2024","all_sources",NA,"ceiling",4,983,"agoda+tripcom | booking_via_agoda+priceline","agoda+booking_via_agoda | priceline+tripcom",0.42653299259988,0.265624973731471,0.546913894662247,FALSE
+"HVEGAS001","2024","all_sources",NA,"floor",4,983,"agoda+tripcom | booking_via_agoda+priceline","agoda+priceline | booking_via_agoda | tripcom",0.41702019649864,0.224249652708544,0.487721661524601,FALSE
+"HVEGAS001","2024","all_sources",NA,"round",4,983,"agoda+tripcom | booking_via_agoda+priceline","agoda+priceline | booking_via_agoda | tripcom",0.351158803367978,0.309965744023702,0.508111691296832,FALSE
+"HVEGAS001","2024","leave_out_agoda","agoda","ceiling",3,800,"booking_via_agoda+priceline | tripcom","booking_via_agoda | priceline+tripcom",0.505867738285324,0.298283493577366,0.636799864027609,FALSE
+"HVEGAS001","2024","leave_out_agoda","agoda","floor",3,800,"booking_via_agoda+priceline | tripcom","booking_via_agoda | priceline+tripcom",0.390613914836172,0.366851934747431,0.670200426540927,FALSE
+"HVEGAS001","2024","leave_out_agoda","agoda","round",3,800,"booking_via_agoda+priceline | tripcom","booking_via_agoda | priceline+tripcom",0.489805673431536,0.30773140152639,0.643479713711948,FALSE
+"HVEGAS001","2024","leave_out_booking_via_agoda","booking_via_agoda","ceiling",3,383,"agoda+tripcom | priceline","agoda | priceline+tripcom",0.470320861777054,0.346978013437209,0.641609797600856,FALSE
+"HVEGAS001","2024","leave_out_booking_via_agoda","booking_via_agoda","floor",3,383,"agoda+tripcom | priceline","agoda+priceline | tripcom",0.534810715567414,0.286594890399948,0.627869970926558,FALSE
+"HVEGAS001","2024","leave_out_booking_via_agoda","booking_via_agoda","round",3,383,"agoda+tripcom | priceline","agoda+priceline | tripcom",0.444719817395741,0.391659424364332,0.638766562338666,FALSE
+"HVEGAS001","2024","leave_out_priceline","priceline","ceiling",3,977,"agoda+tripcom | booking_via_agoda","agoda+booking_via_agoda | tripcom",0.890917139703514,0.10908285405855,0.214108066179838,FALSE
+"HVEGAS001","2024","leave_out_priceline","priceline","floor",3,977,"agoda+tripcom | booking_via_agoda","agoda | booking_via_agoda | tripcom",0.997900824186133,0.00209896335861029,0.00934680205237246,FALSE
+"HVEGAS001","2024","leave_out_priceline","priceline","round",3,977,"agoda+tripcom | booking_via_agoda","agoda | booking_via_agoda | tripcom",0.985830979226888,0.0133959881737247,0.0480797084133322,FALSE
+"HVEGAS001","2024","leave_out_tripcom","tripcom","ceiling",3,789,"agoda | booking_via_agoda+priceline","agoda+booking_via_agoda+priceline",0.57917542071774,0.267292769549033,0.695501885335828,FALSE
+"HVEGAS001","2024","leave_out_tripcom","tripcom","floor",3,789,"agoda | booking_via_agoda+priceline","agoda+priceline | booking_via_agoda",0.546147758802244,0.275635005808209,0.616944277563919,FALSE
+"HVEGAS001","2024","leave_out_tripcom","tripcom","round",3,789,"agoda | booking_via_agoda+priceline","agoda+priceline | booking_via_agoda",0.520164285102566,0.28854307698447,0.655664575420055,FALSE
+"HVEGAS001","2025","all_sources",NA,"ceiling",4,883,"agoda+tripcom | booking_via_agoda+priceline","agoda+booking_via_agoda+priceline+tripcom",0.281345850458315,0.212724489052936,0.777407859293908,FALSE
+"HVEGAS001","2025","all_sources",NA,"floor",4,883,"agoda+tripcom | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline | tripcom",0.74613496440145,0.103468685275863,0.329843027339747,FALSE
+"HVEGAS001","2025","all_sources",NA,"round",4,883,"agoda+tripcom | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline+tripcom",0.583075472827774,0.150480486061176,0.510873680699042,FALSE
+"HVEGAS001","2025","leave_out_agoda","agoda","ceiling",3,743,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline+tripcom",0.721402078357743,0.110204140289153,0.581318780139752,FALSE
+"HVEGAS001","2025","leave_out_agoda","agoda","floor",3,743,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline | tripcom",0.772100634789046,0.105139105680739,0.472311157447078,TRUE
+"HVEGAS001","2025","leave_out_agoda","agoda","round",3,743,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline+tripcom",0.683920918818768,0.13692715542797,0.62821694815593,FALSE
+"HVEGAS001","2025","leave_out_booking_via_agoda","booking_via_agoda","ceiling",3,332,"agoda+tripcom | priceline","agoda+priceline+tripcom",0.69710039088364,0.13976848088502,0.605875713200502,FALSE
+"HVEGAS001","2025","leave_out_booking_via_agoda","booking_via_agoda","floor",3,332,"agoda+tripcom | priceline","agoda | priceline | tripcom",0.489046312587681,0.487246592101167,0.494601972173691,FALSE
+"HVEGAS001","2025","leave_out_booking_via_agoda","booking_via_agoda","round",3,332,"agoda+tripcom | priceline","agoda | priceline+tripcom",0.707632379545441,0.153611368179668,0.58938373457827,FALSE
+"HVEGAS001","2025","leave_out_priceline","priceline","ceiling",3,843,"agoda+tripcom | booking_via_agoda","agoda+booking_via_agoda+tripcom",0.425038384755177,0.294415820793353,0.806702942335666,FALSE
+"HVEGAS001","2025","leave_out_priceline","priceline","floor",3,843,"agoda+tripcom | booking_via_agoda","agoda | booking_via_agoda | tripcom",0.937021334327647,0.0420009586601282,0.170967913543062,FALSE
+"HVEGAS001","2025","leave_out_priceline","priceline","round",3,843,"agoda+tripcom | booking_via_agoda","agoda | booking_via_agoda+tripcom",0.75880767605403,0.190221294374018,0.422240833022212,FALSE
+"HVEGAS001","2025","leave_out_tripcom","tripcom","ceiling",3,731,"agoda | booking_via_agoda+priceline","agoda+booking_via_agoda+priceline",0.41489941023396,0.352740505653326,0.804499045920265,FALSE
+"HVEGAS001","2025","leave_out_tripcom","tripcom","floor",3,731,"agoda | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline",0.883504387237133,0.116386131555497,0.224150677944637,TRUE
+"HVEGAS001","2025","leave_out_tripcom","tripcom","round",3,731,"agoda | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline",0.862585047183849,0.116586402135797,0.285647137158976,TRUE
+"HVEGAS001","pooled","all_sources",NA,"ceiling",4,1866,"agoda+tripcom | booking_via_agoda+priceline","agoda+booking_via_agoda+priceline | tripcom",0.406050225487081,0.245035349411961,0.541931738889877,FALSE
+"HVEGAS001","pooled","all_sources",NA,"floor",4,1866,"agoda+tripcom | booking_via_agoda+priceline","agoda+tripcom | booking_via_agoda+priceline",0.813755797097465,0.11032930798626,0.236095314310157,TRUE
+"HVEGAS001","pooled","all_sources",NA,"round",4,1866,"agoda+tripcom | booking_via_agoda+priceline","agoda+tripcom | booking_via_agoda+priceline",0.724812693919778,0.101787336664457,0.357761680561573,TRUE
+"HVEGAS001","pooled","leave_out_agoda","agoda","ceiling",3,1543,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline | tripcom",0.842160905940384,0.115427782452028,0.328018496088989,TRUE
+"HVEGAS001","pooled","leave_out_agoda","agoda","floor",3,1543,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline | tripcom",0.880402232766548,0.119097991901257,0.229495754569913,TRUE
+"HVEGAS001","pooled","leave_out_agoda","agoda","round",3,1543,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline | tripcom",0.856310891641447,0.117220339197853,0.298394051428805,TRUE
+"HVEGAS001","pooled","leave_out_booking_via_agoda","booking_via_agoda","ceiling",3,715,"agoda+tripcom | priceline","agoda+priceline | tripcom",0.829355174811494,0.121839299663588,0.357151445149081,FALSE
+"HVEGAS001","pooled","leave_out_booking_via_agoda","booking_via_agoda","floor",3,715,"agoda+tripcom | priceline","agoda+tripcom | priceline",0.917131462975624,0.0747246472397136,0.19714762535863,TRUE
+"HVEGAS001","pooled","leave_out_booking_via_agoda","booking_via_agoda","round",3,715,"agoda+tripcom | priceline","agoda+tripcom | priceline",0.531838986620003,0.297998197405725,0.720504521357732,TRUE
+"HVEGAS001","pooled","leave_out_priceline","priceline","ceiling",3,1820,"agoda+tripcom | booking_via_agoda","agoda+booking_via_agoda | tripcom",0.605272921242634,0.391757853999539,0.427660435607,FALSE
+"HVEGAS001","pooled","leave_out_priceline","priceline","floor",3,1820,"agoda+tripcom | booking_via_agoda","agoda+tripcom | booking_via_agoda",0.925058957911415,0.0749410420886413,0.165421925170378,TRUE
+"HVEGAS001","pooled","leave_out_priceline","priceline","round",3,1820,"agoda+tripcom | booking_via_agoda","agoda+tripcom | booking_via_agoda",0.876881703472707,0.123118222423205,0.231815972086053,TRUE
+"HVEGAS001","pooled","leave_out_tripcom","tripcom","ceiling",3,1520,"agoda | booking_via_agoda+priceline","agoda+booking_via_agoda+priceline",0.483307076468816,0.226549041171576,0.789399833342848,FALSE
+"HVEGAS001","pooled","leave_out_tripcom","tripcom","floor",3,1520,"agoda | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline",0.878585124594418,0.119359248865133,0.236204735734899,TRUE
+"HVEGAS001","pooled","leave_out_tripcom","tripcom","round",3,1520,"agoda | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline",0.782506541934612,0.10999137536772,0.419070372752174,TRUE

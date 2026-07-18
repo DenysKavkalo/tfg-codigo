@@ -1,0 +1,5 @@
+hotel_id,platform,raw_rows,status_ok_rows,technical_incident_rows,missing_review_id_rows,missing_review_date_rows,missing_rating_rows,out_of_range_rating_rows,duplicate_review_id_rows,clean_rows,removed_rows,months_with_reviews,min_review_date,max_review_date
+HWYNN001,agoda,96,96,0,0,0,0,0,0,96,0,23,2024-01-03,2025-12-31
+HWYNN001,booking_via_agoda,510,510,0,0,0,0,0,0,510,0,24,2024-01-02,2025-12-31
+HWYNN001,priceline,24,24,0,0,0,0,0,0,24,0,15,2024-01-08,2025-11-14
+HWYNN001,tripcom,309,309,0,0,0,0,0,0,309,0,24,2024-01-01,2025-12-31

@@ -1,0 +1,3 @@
+"hotel_id","method","n_reviews","n_groups","statistic_f","df_numerator","df_denominator","p_value","eta_squared","reject_equal_means_0_05"
+"HWYNN001","classic_one_way_anova",939,4,9.26798939821814,3,935,4.82253325231724e-06,0.0288781196516975,TRUE
+"HWYNN001","welch_one_way_anova",939,4,10.430462704877,3,98.1077804676411,5.10744024371283e-06,NA,TRUE

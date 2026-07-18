@@ -5,7 +5,6 @@ from __future__ import annotations
 import hashlib
 import re
 from pathlib import Path
-from urllib.parse import unquote, urlparse
 
 
 NUMBER_RE = re.compile(r"[-+]?\d+(?:[.,]\d+)?(?:[.,]\d{3})*")
@@ -25,27 +24,6 @@ def parse_decimal(value: object) -> float | None:
 
     token = match.group(0)
     return _normalise_number_token(token)
-
-
-def parse_int(value: object) -> int | None:
-    """Extract an integer from a value when possible."""
-    if value is None:
-        return None
-    if isinstance(value, int):
-        return value
-    if isinstance(value, float):
-        return int(value)
-
-    text = str(value).strip()
-    match = NUMBER_RE.search(text)
-    if not match:
-        return None
-
-    token = match.group(0)
-    number = _normalise_number_token(token, integer_context=True)
-    if number is None:
-        return None
-    return int(round(number))
 
 
 def _normalise_number_token(token: str, integer_context: bool = False) -> float | None:
@@ -98,31 +76,6 @@ def scale_to_0_10(
         raise ValueError("scale method must be 'proportional' or 'minmax'")
 
     return max(0.0, min(10.0, round(scaled, 4)))
-
-
-def domain_matches(url: str, domain_fragments: tuple[str, ...]) -> bool:
-    """Return whether a URL host contains any expected domain fragment."""
-    parsed = urlparse(url)
-    host = parsed.netloc.lower()
-    return any(fragment.lower() in host for fragment in domain_fragments)
-
-
-def path_matches(url: str, path_fragments: tuple[str, ...]) -> bool:
-    """Return whether a URL path contains any expected path fragment."""
-    parsed = urlparse(url)
-    path = unquote(parsed.path).lower()
-    return any(fragment.lower() in path for fragment in path_fragments)
-
-
-def token_match_count(needle: str, haystack: str) -> int:
-    """Count shared alphanumeric tokens between two strings."""
-    needle_tokens = {
-        token
-        for token in re.findall(r"[a-z0-9]+", needle.lower())
-        if len(token) > 2
-    }
-    haystack_tokens = set(re.findall(r"[a-z0-9]+", haystack.lower()))
-    return len(needle_tokens & haystack_tokens)
 
 
 def safe_filename(value: str, max_length: int = 120) -> str:

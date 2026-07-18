@@ -4,11 +4,16 @@ from __future__ import annotations
 
 import json
 import re
-from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qs, urlparse, urlunparse
 
 from dateutil import parser as date_parser
 
-from scraping.reviews.base import ReviewRecord, iso_year, stable_review_id
+from scraping.reviews.base import (
+    ReviewRecord,
+    iso_year,
+    normalise_source_review_id,
+    stable_review_id,
+)
 from scraping.utils import parse_decimal, scale_to_0_10
 
 
@@ -82,7 +87,8 @@ def parse_agoda_reviews(response_text: str, source_url: str, page: int) -> list[
     records: list[ReviewRecord] = []
     provider_mode = _provider_mode(source_url)
 
-    for index, comment in enumerate(comments, start=1):
+    hotel_id = _query_int(parse_qs(urlparse(source_url).query), "hotelId")
+    for comment in comments:
         provider_id = _as_int(comment.get("providerId"))
         provider_name = _provider_name(comment, provider_id)
         if provider_mode == AGODA_PROVIDER_MODE_OWN and provider_id != AGODA_PROVIDER_ID:
@@ -92,20 +98,33 @@ def parse_agoda_reviews(response_text: str, source_url: str, page: int) -> list[
         rating_max = 10.0
         review_date = _parse_date(comment.get("reviewDate") or comment.get("formattedReviewDate"))
         stay_date = _parse_date(comment.get("checkInDate") or comment.get("checkInDateMonthAndYear"))
-        review_id = comment.get("hotelReviewId") or comment.get("encryptedReviewData")
+        source_review_id = normalise_source_review_id(
+            comment.get("hotelReviewId")
+            or comment.get("reviewId")
+            or comment.get("encryptedReviewData")
+        )
         title = comment.get("reviewTitle") or comment.get("ratingText")
+        review_text = (
+            comment.get("reviewComments")
+            or comment.get("reviewText")
+            or comment.get("comments")
+        )
         platform_override = _provider_platform(provider_id, provider_name, provider_mode)
+        output_platform = platform_override or "agoda"
 
         records.append(
             ReviewRecord(
                 review_id=stable_review_id(
-                    platform_override or "agoda",
-                    review_id,
+                    f"{output_platform}:{hotel_id or 'unknown-hotel'}",
+                    source_review_id,
+                    provider_id,
                     review_date,
                     stay_date,
                     rating,
-                    index,
+                    title,
+                    review_text,
                 ),
+                source_review_id=source_review_id,
                 platform_override=platform_override,
                 source_platform="agoda",
                 provider_id=provider_id,

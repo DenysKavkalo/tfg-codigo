@@ -1,0 +1,10 @@
+"hotel_id","period_scenario","source_scenario","excluded_platform","score_mode","n_platforms","n_reviews_scenario","reference_partition_projected","top_partition","top_probability","second_probability","normalized_entropy","matches_reference_structure"
+"HVEGAS001","2024","all_sources",NA,"round",4,983,"agoda+tripcom | booking_via_agoda+priceline","agoda+priceline | booking_via_agoda | tripcom",0.351158803367978,0.309965744023702,0.508111691296832,FALSE
+"HVEGAS001","2025","all_sources",NA,"round",4,883,"agoda+tripcom | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline+tripcom",0.583075472827774,0.150480486061176,0.510873680699042,FALSE
+"HVEGAS001","pooled","all_sources",NA,"ceiling",4,1866,"agoda+tripcom | booking_via_agoda+priceline","agoda+booking_via_agoda+priceline | tripcom",0.406050225487081,0.245035349411961,0.541931738889877,FALSE
+"HVEGAS001","pooled","all_sources",NA,"floor",4,1866,"agoda+tripcom | booking_via_agoda+priceline","agoda+tripcom | booking_via_agoda+priceline",0.813755797097465,0.11032930798626,0.236095314310157,TRUE
+"HVEGAS001","pooled","all_sources",NA,"round",4,1866,"agoda+tripcom | booking_via_agoda+priceline","agoda+tripcom | booking_via_agoda+priceline",0.724812693919778,0.101787336664457,0.357761680561573,TRUE
+"HVEGAS001","pooled","leave_out_agoda","agoda","round",3,1543,"booking_via_agoda+priceline | tripcom","booking_via_agoda+priceline | tripcom",0.856310891641447,0.117220339197853,0.298394051428805,TRUE
+"HVEGAS001","pooled","leave_out_booking_via_agoda","booking_via_agoda","round",3,715,"agoda+tripcom | priceline","agoda+tripcom | priceline",0.531838986620003,0.297998197405725,0.720504521357732,TRUE
+"HVEGAS001","pooled","leave_out_priceline","priceline","round",3,1820,"agoda+tripcom | booking_via_agoda","agoda+tripcom | booking_via_agoda",0.876881703472707,0.123118222423205,0.231815972086053,TRUE
+"HVEGAS001","pooled","leave_out_tripcom","tripcom","round",3,1520,"agoda | booking_via_agoda+priceline","agoda | booking_via_agoda+priceline",0.782506541934612,0.10999137536772,0.419070372752174,TRUE

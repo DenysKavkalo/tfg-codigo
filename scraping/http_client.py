@@ -62,19 +62,19 @@ class Fetcher:
     ) -> FetchResult:
         """Fetch a URL using GET or POST, optionally rendering GET pages."""
         method = method.upper()
+        if method not in {"GET", "POST"}:
+            raise ValueError(f"Unsupported HTTP method: {method}")
         if render_js and method != "GET":
             raise ValueError("Playwright rendering is only supported for GET requests.")
 
-        if render_js:
-            result = self._fetch_with_playwright(url)
-        elif method == "POST":
-            result = self._fetch_with_post(url, json_body=json_body, headers=headers)
-        elif method == "GET":
-            result = self._fetch_with_requests(url)
-        else:
-            raise ValueError(f"Unsupported HTTP method: {method}")
-        sleep(max(0.0, self.delay_seconds))
-        return result
+        try:
+            if render_js:
+                return self._fetch_with_playwright(url)
+            if method == "POST":
+                return self._fetch_with_post(url, json_body=json_body, headers=headers)
+            return self._fetch_with_requests(url)
+        finally:
+            sleep(max(0.0, self.delay_seconds))
 
     def _fetch_with_requests(self, url: str) -> FetchResult:
         """Fetch a GET URL with requests."""

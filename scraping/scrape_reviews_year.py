@@ -44,6 +44,7 @@ OUTPUT_COLUMNS = [
     "provider_id",
     "provider_name",
     "review_id",
+    "source_review_id",
     "review_date",
     "review_year",
     "stay_date",
@@ -186,16 +187,7 @@ def main() -> None:
         rows = scrape_source(source, args, fetcher)
         all_rows.extend(rows)
 
-    output = pd.DataFrame(all_rows, columns=OUTPUT_COLUMNS)
-    if not output.empty:
-        ok_rows = output[output["status"].eq("ok")].drop_duplicates(
-            subset=["hotel_id", "platform", "review_id"], keep="first"
-        )
-        audit_rows = output[~output["status"].eq("ok")]
-        output = pd.concat([ok_rows, audit_rows], ignore_index=True).sort_values(
-            ["hotel_id", "platform", "review_date", "page"],
-            na_position="last",
-        )
+    output = deduplicate_output_rows(pd.DataFrame(all_rows, columns=OUTPUT_COLUMNS))
 
     ensure_parent(args.output)
     output.to_csv(args.output, index=False, encoding="utf-8")
@@ -204,6 +196,24 @@ def main() -> None:
     if not output.empty:
         summary = output.groupby(["hotel_id", "platform", "status"]).size()
         print(summary.to_string())
+
+
+def deduplicate_output_rows(output: pd.DataFrame) -> pd.DataFrame:
+    """Remove repeated valid reviews while preserving technical audit rows."""
+    if output.empty:
+        return output
+
+    ok_rows = output[output["status"].eq("ok")].copy()
+    if ok_rows["review_id"].isna().any():
+        raise ValueError("Every valid review row must have a review_id.")
+    ok_rows = ok_rows.drop_duplicates(
+        subset=["hotel_id", "platform", "review_id"], keep="first"
+    )
+    audit_rows = output[~output["status"].eq("ok")]
+    return pd.concat([ok_rows, audit_rows], ignore_index=True).sort_values(
+        ["hotel_id", "platform", "review_date", "page"],
+        na_position="last",
+    )
 
 
 def scrape_source(
@@ -367,6 +377,7 @@ def base_error_row(
         "provider_id": None,
         "provider_name": None,
         "review_id": None,
+        "source_review_id": None,
         "review_date": None,
         "review_year": None,
         "stay_date": None,

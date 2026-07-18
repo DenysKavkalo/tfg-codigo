@@ -111,6 +111,25 @@ log_partition_evidence <- function(
   )
 }
 
+transform_partition_scores <- function(scores, score_mode = "round") {
+  if (!score_mode %in% c("round", "floor", "ceiling")) {
+    stop(
+      "score_mode debe ser 'round', 'floor' o 'ceiling'.",
+      call. = FALSE
+    )
+  }
+
+  transformed <- 10 - scores
+  if (score_mode == "round") {
+    # Half-up rounding keeps the transformed scores on the Poisson support.
+    return(floor(transformed + 0.5))
+  }
+  if (score_mode == "floor") {
+    return(floor(transformed))
+  }
+  ceiling(transformed)
+}
+
 prepare_partition_statistics <- function(reviews, score_mode = "round") {
   required_columns <- c("hotel_id", "platform", "rating_scaled_0_10")
   missing_columns <- setdiff(required_columns, names(reviews))
@@ -121,10 +140,6 @@ prepare_partition_statistics <- function(reviews, score_mode = "round") {
     )
   }
 
-  if (!score_mode %in% c("round", "continuous")) {
-    stop("score_mode debe ser 'round' o 'continuous'.", call. = FALSE)
-  }
-
   reviews <- reviews[!is.na(reviews$rating_scaled_0_10), ]
   if (nrow(reviews) == 0) {
     stop("No hay puntuaciones validas para analizar.", call. = FALSE)
@@ -133,12 +148,10 @@ prepare_partition_statistics <- function(reviews, score_mode = "round") {
     stop("Las puntuaciones deben encontrarse en la escala 0-10.", call. = FALSE)
   }
 
-  transformed <- 10 - reviews$rating_scaled_0_10
-  if (score_mode == "round") {
-    # Half-up rounding keeps the transformed scores on the Poisson support.
-    transformed <- floor(transformed + 0.5)
-  }
-  reviews$transformed_score <- transformed
+  reviews$transformed_score <- transform_partition_scores(
+    reviews$rating_scaled_0_10,
+    score_mode
+  )
 
   do.call(
     rbind,
@@ -200,7 +213,8 @@ analyse_partition_models <- function(platform_stats, alpha = 0.5, beta = 0) {
     partition = vapply(partitions, partition_label, character(1)),
     n_clusters = vapply(partitions, length, integer(1)),
     log_model_evidence = log_evidence,
-    log_bayes_factor_vs_homogeneity = log_evidence - homogeneity_log_evidence,
+    log_bayes_factor_partition_vs_homogeneity =
+      log_evidence - homogeneity_log_evidence,
     posterior_probability = exp(log_evidence - normalizer),
     scaled_integration_error = scaled_integration_error,
     integration_mode_lambda = integration_mode_lambda,

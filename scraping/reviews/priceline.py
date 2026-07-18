@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime
 from urllib.parse import urlparse, urlunparse
 
 from bs4 import BeautifulSoup
 from dateutil import parser as date_parser
 
-from scraping.reviews.base import ReviewRecord, iso_year, stable_review_id
+from scraping.reviews.base import (
+    ReviewRecord,
+    iso_year,
+    normalise_source_review_id,
+    stable_review_id,
+)
 from scraping.utils import parse_decimal, scale_to_0_10
 
 
@@ -21,25 +25,28 @@ def build_priceline_reviews_page_url(base_url: str, page: int) -> str:
 def parse_priceline_reviews(html: str, source_url: str, page: int) -> list[ReviewRecord]:
     """Parse Priceline HTML into ReviewRecord objects."""
     records: list[ReviewRecord] = []
-    for index, review in enumerate(_extract_reviews(html), start=1):
+    for review in _extract_reviews(html):
         rating = parse_decimal(review.get("score"))
         review_date = _parse_datetime(review.get("datetime"))
         positive = str(review.get("positive") or "").strip()
         negative = str(review.get("negative") or "").strip()
-        content_fingerprint = " ".join([positive, negative]).strip()[:300]
+        source_review_id = normalise_source_review_id(
+            review.get("reviewId") or review.get("id") or review.get("review_id")
+        )
+        hotel_identity = review.get("hotelId") or _url_without_query(source_url)
 
         records.append(
             ReviewRecord(
                 review_id=stable_review_id(
-                    "priceline",
-                    _url_without_query(source_url),
-                    review.get("hotelId"),
+                    f"priceline:{hotel_identity}",
+                    source_review_id,
                     review.get("firstName"),
                     review_date,
                     rating,
-                    content_fingerprint,
-                    index,
+                    positive,
+                    negative,
                 ),
+                source_review_id=source_review_id,
                 platform_override=None,
                 source_platform="priceline",
                 provider_id=None,

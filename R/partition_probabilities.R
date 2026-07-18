@@ -7,7 +7,7 @@ if (length(args) < 2) {
     paste(
       "Uso:",
       "Rscript R/partition_probabilities.R",
-      "<clean_reviews_csv> <output_csv> [round|continuous]"
+      "<clean_reviews_csv> <output_csv> [round|floor|ceiling]"
     ),
     call. = FALSE
   )

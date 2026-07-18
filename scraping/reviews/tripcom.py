@@ -4,12 +4,16 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import datetime
-from urllib.parse import parse_qs, urlparse, urlunparse
+from urllib.parse import parse_qs, urlparse
 
 from dateutil import parser as date_parser
 
-from scraping.reviews.base import ReviewRecord, iso_year, stable_review_id
+from scraping.reviews.base import (
+    ReviewRecord,
+    iso_year,
+    normalise_source_review_id,
+    stable_review_id,
+)
 from scraping.utils import parse_decimal, scale_to_0_10
 
 
@@ -68,7 +72,8 @@ def parse_tripcom_reviews(html: str, source_url: str, page: int) -> list[ReviewR
     comments = _extract_comment_list(html)
     records: list[ReviewRecord] = []
 
-    for index, comment in enumerate(comments, start=1):
+    hotel_id = _hotel_id_from_url(source_url)
+    for comment in comments:
         rating = parse_decimal(comment.get("rating"))
         rating_max = parse_decimal(comment.get("ratingMax")) or parse_decimal(
             (comment.get("ratingInfo") or {}).get("ratingMax")
@@ -77,19 +82,27 @@ def parse_tripcom_reviews(html: str, source_url: str, page: int) -> list[ReviewR
         review_date = _parse_datetime(comment.get("createDate"))
         stay_date = _parse_datetime(comment.get("checkInDate"))
         title = comment.get("commentLevel")
-        comment_id = comment.get("id")
+        source_review_id = normalise_source_review_id(
+            comment.get("id") or comment.get("commentId")
+        )
+        review_text = (
+            comment.get("content")
+            or comment.get("comment")
+            or comment.get("reviewText")
+        )
 
         records.append(
             ReviewRecord(
                 review_id=stable_review_id(
-                    "tripcom",
-                    _url_without_query(source_url),
-                    comment_id,
+                    f"tripcom:{hotel_id}",
+                    source_review_id,
                     review_date,
                     stay_date,
                     rating,
-                    index,
+                    comment.get("userNick") or comment.get("userName"),
+                    review_text,
                 ),
+                source_review_id=source_review_id,
                 platform_override=None,
                 source_platform="tripcom",
                 provider_id=None,
@@ -122,23 +135,22 @@ def _extract_comment_list(html: str) -> list[dict]:
     if json_comments is not None:
         return json_comments
 
-    pattern = '\\"commentList\\":'
-    index = html.find(pattern)
+    decoded_html = html.replace('\\"', '"')
+    pattern = '"commentList":'
+    index = decoded_html.find(pattern)
     if index < 0:
         return []
 
-    start = html.find("[", index)
+    start = decoded_html.find("[", index)
     if start < 0:
         return []
 
-    end = _find_balanced_array_end(html, start)
+    end = _find_balanced_array_end(decoded_html, start)
     if end is None:
         return []
 
-    raw_array = html[start:end]
-    json_text = raw_array.replace('\\"', '"')
     try:
-        parsed = json.loads(json_text)
+        parsed = json.loads(decoded_html[start:end])
     except json.JSONDecodeError:
         return []
 
@@ -162,10 +174,23 @@ def _extract_comment_list_from_json(response_text: str) -> list[dict] | None:
 
 
 def _find_balanced_array_end(value: str, start: int) -> int | None:
-    """Return the end index of a JSON array starting at a position."""
+    """Return the end index of a JSON array while respecting strings."""
     depth = 0
+    in_string = False
+    escaped = False
     for index, char in enumerate(value[start:], start):
-        if char == "[":
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+
+        if char == '"':
+            in_string = True
+        elif char == "[":
             depth += 1
         elif char == "]":
             depth -= 1
@@ -182,12 +207,6 @@ def _parse_datetime(value: object) -> str | None:
         return date_parser.parse(str(value), fuzzy=True).date().isoformat()
     except (ValueError, TypeError, OverflowError):
         return None
-
-
-def _url_without_query(url: str) -> str:
-    """Return a URL without query parameters."""
-    parsed = urlparse(url)
-    return urlunparse((parsed.scheme, parsed.netloc, parsed.path, "", "", ""))
 
 
 def _hotel_id_from_url(url: str) -> int:

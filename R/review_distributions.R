@@ -16,6 +16,14 @@ if (length(args) < 2) {
 input_csv <- args[[1]]
 output_dir <- args[[2]]
 
+script_argument <- grep("^--file=", commandArgs(), value = TRUE)
+script_path <- if (length(script_argument) > 0) {
+  normalizePath(sub("^--file=", "", script_argument[[1]]))
+} else {
+  normalizePath("R/review_distributions.R")
+}
+source(file.path(dirname(script_path), "plot_utils.R"))
+
 reviews <- read.csv(input_csv, stringsAsFactors = FALSE)
 required_columns <- c("hotel_id", "platform", "rating_scaled_0_10")
 missing_columns <- setdiff(required_columns, names(reviews))
@@ -66,37 +74,92 @@ write.csv(
 
 png(
   filename = file.path(output_dir, "histograms_by_platform.png"),
-  width = 1200,
-  height = 800
+  width = 1400,
+  height = 900,
+  res = 130,
+  pointsize = 16,
+  bg = "white"
 )
-par(mfrow = c(ceiling(length(unique(reviews$platform)) / 2), 2), mar = c(4, 4, 3, 1))
-for (platform in sort(unique(reviews$platform))) {
+platforms <- sort(unique(reviews$platform))
+histogram_breaks <- seq(0, 10, by = 1)
+histogram_specs <- lapply(
+  platforms,
+  function(platform) {
+    hist(
+      reviews$rating_scaled_0_10[reviews$platform == platform],
+      breaks = histogram_breaks,
+      plot = FALSE
+    )
+  }
+)
+common_density_limit <- max(
+  unlist(lapply(histogram_specs, function(specification) specification$density))
+) * 1.08
+par(
+  mfrow = c(ceiling(length(platforms) / 2), 2),
+  mar = c(4.5, 4.8, 3, 0.8),
+  mgp = c(2.7, 0.8, 0),
+  tcl = -0.25,
+  las = 1
+)
+for (platform in platforms) {
   scores <- reviews$rating_scaled_0_10[reviews$platform == platform]
   hist(
     scores,
-    breaks = seq(0, 10, by = 1),
-    main = platform,
-    xlab = "Puntuacion escalada 0-10",
-    ylab = "Frecuencia",
+    breaks = histogram_breaks,
+    freq = FALSE,
+    main = platform_display_name(platform),
+    xlab = "Puntuaci\u00f3n en escala 0-10",
+    ylab = "Frecuencia relativa",
     col = "#9ecae1",
     border = "white",
-    xlim = c(0, 10)
+    xlim = c(0, 10),
+    ylim = c(0, common_density_limit)
   )
 }
 dev.off()
 
 png(
   filename = file.path(output_dir, "boxplot_by_platform.png"),
-  width = 1000,
-  height = 700
+  width = 1400,
+  height = 760,
+  res = 130,
+  pointsize = 16,
+  bg = "white"
+)
+boxplot_platforms <- rev(platforms)
+boxplot_scores <- lapply(
+  boxplot_platforms,
+  function(platform) {
+    reviews$rating_scaled_0_10[reviews$platform == platform]
+  }
+)
+par(
+  mar = c(4.5, 11, 1, 1),
+  mgp = c(2.6, 0.7, 0),
+  tcl = -0.25,
+  xaxs = "i"
 )
 boxplot(
-  rating_scaled_0_10 ~ platform,
-  data = reviews,
-  ylab = "Puntuacion escalada 0-10",
-  xlab = "Plataforma",
+  boxplot_scores,
+  names = platform_display_name(boxplot_platforms),
+  horizontal = TRUE,
+  ylim = c(0, 10.25),
+  xlab = "Puntuaci\u00f3n en escala 0-10",
+  ylab = "",
   col = "#c7e9c0",
-  border = "#238b45"
+  border = "#238b45",
+  medcol = "#006d2c",
+  medlwd = 2,
+  whisklty = 1,
+  staplewex = 0.6,
+  outpch = 21,
+  outbg = "white",
+  outcol = "#238b45",
+  outcex = 0.75,
+  las = 1,
+  cex.axis = 1.05,
+  cex.lab = 1.1
 )
 dev.off()
 

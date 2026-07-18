@@ -1,36 +1,41 @@
 # Guía de ejecución
 
-Los comandos deben ejecutarse desde la raíz de esta carpeta.
+Los comandos deben ejecutarse desde la raíz de la carpeta `Código`.
 
 ## Requisitos
 
 - Python 3.10 o superior.
-- R con `Rscript` disponible.
+- R 4.2 o superior.
 
-Los scripts de R usan funciones base de R y no requieren paquetes adicionales.
+Los scripts de R utilizan únicamente funciones incluidas en la instalación base.
 
-## 1. Preparar el entorno de Python
+## 1. Preparar Python y localizar R
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+
+$Rscript = (Get-Command Rscript -ErrorAction SilentlyContinue).Source
+if (-not $Rscript) {
+  $Rscript = (Get-ChildItem "C:\Program Files\R\R-*\bin\Rscript.exe" |
+    Sort-Object FullName -Descending | Select-Object -First 1).FullName
+}
+if (-not $Rscript) { throw "No se encontró Rscript." }
 ```
 
 ## 2. Seleccionar el hotel
 
-El flujo está preparado para los dos casos de estudio. Se debe asignar uno de los valores disponibles:
+El mismo flujo se ejecuta por separado para cada caso:
 
 ```powershell
-$hotel = "venetian"  # También puede usarse "wynn"
+$hotel = "venetian"  # Repetir después con "wynn"
 ```
-
-Los pasos siguientes pueden repetirse cambiando el valor de `$hotel`.
 
 ## 3. Obtener las reseñas
 
-El repositorio incluye los ficheros brutos utilizados para generar los resultados de la memoria. Para reproducir la preparación y los análisis sobre esa instantánea, puede omitirse este paso y comenzar en el apartado 4. La ejecución del comando siguiente vuelve a consultar las plataformas y sustituye el fichero bruto correspondiente, por lo que las observaciones obtenidas podrían variar.
+El repositorio conserva los ficheros brutos empleados en la memoria. Para reproducir exactamente los resultados puede omitirse este paso y comenzar en el apartado 4. Una extracción nueva consulta de nuevo las fuentes y puede recuperar observaciones diferentes.
 
 ```powershell
 python -m scraping.scrape_reviews_year `
@@ -45,45 +50,45 @@ python -m scraping.scrape_reviews_year `
   --delay-seconds 1
 ```
 
-## 4. Preparar los datos limpios
+## 4. Preparar y validar los datos
 
 ```powershell
 python -m scraping.prepare_reviews_for_r `
   --input "data/raw/reviews_${hotel}_2024_2025_raw.csv" `
   --output "data/processed/reviews_${hotel}_2024_2025_clean.csv" `
-  --summary-output "data/processed/reviews_${hotel}_2024_2025_summary.csv"
+  --summary-output "data/processed/reviews_${hotel}_2024_2025_summary.csv" `
+  --quality-output "data/processed/reviews_${hotel}_2024_2025_quality.csv"
 ```
 
-## 5. Análisis descriptivo en R
+## 5. Ejecutar los análisis en R
 
 ```powershell
-Rscript R/review_distributions.R `
-  "data/processed/reviews_${hotel}_2024_2025_clean.csv" `
-  "data/processed/r_reviews_${hotel}_2024_2025"
+$clean = "data/processed/reviews_${hotel}_2024_2025_clean.csv"
+$results = "data/processed/r_reviews_${hotel}_2024_2025"
+
+& $Rscript R/review_distributions.R $clean $results
+
+& $Rscript R/partition_probabilities.R `
+  $clean "data/processed/partition_probabilities_${hotel}_2024_2025.csv" round
+
+& $Rscript R/frequentist_analysis.R `
+  $clean $results "data/processed/partition_probabilities_${hotel}_2024_2025.csv"
+
+& $Rscript R/poisson_diagnostics.R $clean $results 5000 20240601
+& $Rscript R/temporal_analysis.R $clean $results 2024-01-01 2025-12-31
+& $Rscript R/sensitivity_analysis.R $clean $results
 ```
 
-## 6. Probabilidades de particiones en R
+El análisis de sensibilidad genera 45 escenarios por hotel: periodo completo, 2024 y 2025; todas las fuentes y cuatro exclusiones individuales; y discretización mediante redondeo, suelo y techo.
+
+## 6. Ejecutar las pruebas
 
 ```powershell
-Rscript R/partition_probabilities.R `
-  "data/processed/reviews_${hotel}_2024_2025_clean.csv" `
-  "data/processed/partition_probabilities_${hotel}_2024_2025.csv"
+python -m unittest discover -s tests -v
+& $Rscript R/validate_partition_model.R
+& $Rscript R/validate_analysis_pipeline.R
 ```
 
-El cálculo aplica la transformación `10-S`, discretiza las puntuaciones a la
-escala entera más próxima y evalúa las ecuaciones 13-15 de Martel-Escobar
-et al. (2023). La implementación puede comprobarse con:
+La primera validación contrasta la implementación de las particiones con los resultados publicados por Martel--Escobar et al. (2023). La segunda comprueba ANOVA y Tukey, la transformación de puntuaciones, el diagnóstico de Poisson, la rejilla de 24 meses, los 45 escenarios y la suma unitaria de cada distribución posterior.
 
-```powershell
-Rscript R/validate_partition_model.R
-```
-
-Como comprobación de sensibilidad, se puede conservar el valor decimal de las
-puntuaciones transformadas mediante el tercer argumento `continuous`:
-
-```powershell
-Rscript R/partition_probabilities.R `
-  "data/processed/reviews_${hotel}_2024_2025_clean.csv" `
-  "data/processed/partition_probabilities_${hotel}_continuous_sensitivity.csv" `
-  continuous
-```
+El navegador automatizado es opcional y no interviene en la ejecución anterior. La opción `--render-js` solo puede utilizarse con páginas solicitadas mediante GET; no es compatible con los endpoints POST de Agoda y Trip.com. Para habilitarla se requiere instalar Playwright mediante `python -m pip install playwright` y `python -m playwright install chromium`.
